@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,7 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
 
-        $input = $request->all();
+        $input = array_merge($request->all(), ['role_id' => Role::where('name', 'user')->first()->id]);
 
         $user = User::create($input);
 
