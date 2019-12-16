@@ -26,3 +26,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
 Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('users', '\\' . UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 });
+
+Route::get('posts', 'PostsController@index')->name('posts');
+Route::get('posts/{category}/{post}', 'PostsController@show');
+Route::patch('posts/{category}/{post}', 'PostsController@update');
+Route::delete('posts/{category}/{post}', 'PostsController@destroy');
+Route::post('posts', 'PostsController@store')->middleware('verified');
+Route::get('posts/{category}', 'PostsController@index');
