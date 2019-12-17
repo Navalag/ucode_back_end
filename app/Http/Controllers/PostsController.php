@@ -77,7 +77,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Update the given thread.
+     * Update the given post.
      *
      * @param Request $request
      * @param string $category

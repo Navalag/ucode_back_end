@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -32,6 +33,18 @@ class Post extends Model
     ];
 
     /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($post) {
+            $post->comments->each->delete();
+        });
+    }
+
+    /**
      * A post belongs to a creator.
      *
      * @return BelongsTo
@@ -42,6 +55,18 @@ class Post extends Model
     }
 
     /**
+     * A post may have many comments.
+     *
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)
+//            ->withCount('favorites')
+            ->with('owner');
+    }
+
+    /**
      * A post is assigned to a category.
      *
      * @return BelongsTo
@@ -49,6 +74,20 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Add a comment to the post.
+     *
+     * @param  array $comment
+     *
+     * @return Model
+     */
+    public function addComment($comment)
+    {
+        $comment = $this->comments()->create($comment);
+
+        return $comment;
     }
 
     /**

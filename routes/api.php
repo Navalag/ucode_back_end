@@ -33,3 +33,9 @@ Route::patch('posts/{category}/{post}', 'PostsController@update');
 Route::delete('posts/{category}/{post}', 'PostsController@destroy');
 Route::post('posts', 'PostsController@store')->middleware('verified');
 Route::get('posts/{category}', 'PostsController@index');
+
+Route::get('posts/{category}/{post}/comments', 'CommentsController@index');
+Route::get('posts/{category}/{post}/comments/{comment}', 'CommentsController@show');
+Route::post('posts/{category}/{post}/comments', 'CommentsController@store');
+Route::patch('comments/{comment}', 'CommentsController@update');
+Route::delete('comments/{comment}', 'CommentsController@destroy')->name('comments.destroy');
