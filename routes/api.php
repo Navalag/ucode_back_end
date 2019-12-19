@@ -34,8 +34,17 @@ Route::delete('posts/{category}/{post}', 'PostsController@destroy');
 Route::post('posts', 'PostsController@store')->middleware('verified');
 Route::get('posts/{category}', 'PostsController@index');
 
+Route::post('locked-posts/{post}', 'LockedPostsController@store')->name('locked-posts.store')->middleware('admin');
+Route::delete('locked-posts/{post}', 'LockedPostsController@destroy')->name('locked-posts.destroy')->middleware('admin');
+
 Route::get('posts/{category}/{post}/comments', 'CommentsController@index');
 Route::get('posts/{category}/{post}/comments/{comment}', 'CommentsController@show');
 Route::post('posts/{category}/{post}/comments', 'CommentsController@store');
 Route::patch('comments/{comment}', 'CommentsController@update');
 Route::delete('comments/{comment}', 'CommentsController@destroy')->name('comments.destroy');
+
+Route::post('/comments/{comment}/like', 'CommentsLikesController@store');
+Route::delete('/comments/{comment}/like', 'CommentsLikesController@destroy');
+
+Route::post('/posts/{category}/{post}/like', 'PostsLikesController@store');
+Route::delete('/posts/{category}/{post}/like', 'PostsLikesController@destroy');

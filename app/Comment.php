@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comment extends Model
 {
+    use Likeable;
+
     /**
      * Don't auto-apply mass assignment protection.
      *
@@ -20,7 +22,14 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $with = ['owner'];
+    protected $with = ['owner', 'likes'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['likes_count', 'is_liked'];
 
     /**
      * Boot the comment instance.
