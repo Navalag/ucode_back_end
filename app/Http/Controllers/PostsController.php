@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Filters\PostFilters;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,12 +24,13 @@ class PostsController extends Controller
      * Display a listing of the resource.
      *
      * @param Category $category
+     * @param PostFilters $filters
      *
      * @return Response
      */
-    public function index(Category $category)
+    public function index(Category $category, PostFilters $filters)
     {
-        $posts = $this->getPosts($category);
+        $posts = $this->getPosts($category, $filters);
 
         return response()->json($posts, 200);
     }
@@ -126,14 +128,16 @@ class PostsController extends Controller
     }
 
     /**
-     * Fetch all relevant threads.
+     * Fetch all relevant posts.
      *
      * @param Category $category
+     * @param PostFilters $filters
+     *
      * @return mixed
      */
-    protected function getPosts(Category $category)
+    protected function getPosts(Category $category, PostFilters $filters)
     {
-        $posts = Post::latest();
+        $posts = Post::latest()->filter($filters);
 
         if ($category->exists) {
             $posts->where('category_id', $category->id);

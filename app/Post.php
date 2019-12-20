@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Filters\PostFilters;
+use App\Filters\ThreadFilters;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -97,6 +100,19 @@ class Post extends Model
         $comment = $this->comments()->create($comment);
 
         return $comment;
+    }
+
+    /**
+     * Apply all relevant post filters.
+     *
+     * @param  Builder     $query
+     * @param  PostFilters $filters
+     *
+     * @return Builder
+     */
+    public function scopeFilter($query, PostFilters $filters)
+    {
+        return $filters->apply($query);
     }
 
     /**
