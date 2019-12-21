@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -23,9 +24,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
     Route::post('me', 'AuthController@me')->middleware('auth:api');
 });
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('users', '\\' . UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-});
+Route::resource('users', '\\' . UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+Route::resource('categories', '\\' . CategoriesController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
 Route::get('posts', 'PostsController@index')->name('posts');
 Route::get('posts/{category}/{post}', 'PostsController@show');
