@@ -29,7 +29,7 @@ class CommentsController extends Controller
      */
     public function index(Post $post)
     {
-        return $post->comments()->paginate(20);
+        return $post->comments()->active()->paginate(20);
     }
 
     /**
@@ -102,7 +102,7 @@ class CommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        $this->authorize('update', $comment);
+        $this->authorize('destroy', $comment);
 
         $comment->delete();
 

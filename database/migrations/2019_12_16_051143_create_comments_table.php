@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->integer('user_id');
             $table->integer('post_id');
             $table->text('body');
+            $table->boolean('locked')->default(false);
             $table->timestamps();
         });
     }

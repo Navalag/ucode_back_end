@@ -14,5 +14,6 @@ $factory->define(Comment::class, function (Faker $faker) {
             return factory('App\User')->create()->id;
         },
         'body' => $faker->paragraph,
+        'locked' => false,
     ];
 });

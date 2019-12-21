@@ -92,6 +92,7 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         $validator = Validator::make($request->all(), [
+            'category_id' => ['required', Rule::exists((new Category())->getTable(), 'id')],
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:1000'],
         ]);
@@ -100,8 +101,13 @@ class PostsController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
 
-        $input = $request->all();
-
+        // TODO: this is hotfix need to be refactored later
+        if (auth()->user()->role->name == 'admin') {
+            $input = $request->get('category_id');
+        } else {
+            $input = $request->all();
+        }
+        
         $post->update($input);
 
         return response()->json($post, 200);

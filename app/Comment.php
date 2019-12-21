@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -30,6 +31,15 @@ class Comment extends Model
      * @var array
      */
     protected $appends = ['likes_count', 'is_liked'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
 
     /**
      * Boot the comment instance.
@@ -75,5 +85,29 @@ class Comment extends Model
     public function wasJustPublished()
     {
         return $this->created_at->gt(Carbon::now()->subMinute());
+    }
+
+    /**
+     * Scope a query to only include inactive comments.
+     *
+     * @param  Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('locked', 0);
+    }
+
+    /**
+     * Scope a query to only include active comments.
+     *
+     * @param  Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeInactive($query)
+    {
+        return $query->where('locked', 1);
     }
 }

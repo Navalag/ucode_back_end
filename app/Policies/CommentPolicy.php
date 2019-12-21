@@ -45,6 +45,11 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment)
     {
+        return $comment->user_id == $user->id;
+    }
+
+    public function destroy(User $user, Comment $comment)
+    {
         if ($user->role->name == 'admin') {
             return true;
         }

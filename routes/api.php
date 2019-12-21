@@ -45,6 +45,10 @@ Route::get('comments/{comment}', 'CommentsController@show');
 Route::patch('comments/{comment}', 'CommentsController@update');
 Route::delete('comments/{comment}', 'CommentsController@destroy')->name('comments.destroy');
 
+Route::get('posts/{post}/locked-comment', 'LockedCommentsController@index');
+Route::post('locked-comment/{comment}', 'LockedCommentsController@store');
+Route::delete('locked-comment/{comment}', 'LockedCommentsController@destroy');
+
 Route::post('/comments/{comment}/like', 'CommentsLikesController@store');
 Route::delete('/comments/{comment}/like', 'CommentsLikesController@destroy');
 
