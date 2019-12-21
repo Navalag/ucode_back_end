@@ -134,7 +134,7 @@ class PostsController extends Controller
      */
     protected function getPosts(Category $category, PostFilters $filters)
     {
-        $posts = Post::latest()->filter($filters);
+        $posts = Post::latest()->active()->filter($filters);
 
         if ($category->exists) {
             $posts->where('category_id', $category->id);

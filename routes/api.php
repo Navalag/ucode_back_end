@@ -32,10 +32,12 @@ Route::get('posts/{post}', 'PostsController@show');
 Route::patch('posts/{post}', 'PostsController@update');
 Route::delete('posts/{post}', 'PostsController@destroy');
 Route::post('posts', 'PostsController@store')->middleware('verified');
-Route::get('posts/{category}', 'PostsController@index');
+Route::get('categories/{category}/posts', 'PostsController@index');
 
-Route::post('locked-posts/{post}', 'LockedPostsController@store')->name('locked-posts.store')->middleware('admin');
-Route::delete('locked-posts/{post}', 'LockedPostsController@destroy')->name('locked-posts.destroy')->middleware('admin');
+Route::get('locked-posts', 'LockedPostsController@index');
+Route::get('locked-posts/{category}', 'LockedPostsController@index');
+Route::post('locked-posts/{post}', 'LockedPostsController@store');
+Route::delete('locked-posts/{post}', 'LockedPostsController@destroy');
 
 Route::get('posts/{post}/comments', 'CommentsController@index');
 Route::post('posts/{post}/comments', 'CommentsController@store');

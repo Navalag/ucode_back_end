@@ -116,6 +116,30 @@ class Post extends Model
     }
 
     /**
+     * Scope a query to only include inactive posts.
+     *
+     * @param  Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('locked', 0);
+    }
+
+    /**
+     * Scope a query to only include active posts.
+     *
+     * @param  Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeInactive($query)
+    {
+        return $query->where('locked', 1);
+    }
+
+    /**
      * Set the proper slug attribute.
      *
      * @param string $value

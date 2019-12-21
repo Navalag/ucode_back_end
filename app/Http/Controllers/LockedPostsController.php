@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,6 +15,24 @@ class LockedPostsController extends Controller
     public function __construct()
     {
         $this->middleware('admin');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Category $category
+     *
+     * @return Response
+     */
+    public function index(Category $category)
+    {
+        $posts = Post::latest()->inactive();
+
+        if ($category->exists) {
+            $posts->where('category_id', $category->id);
+        }
+
+        return response()->json($posts->paginate(10), 200);
     }
 
     /**
