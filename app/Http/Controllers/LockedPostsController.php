@@ -9,6 +9,14 @@ use Illuminate\Http\Response;
 class LockedPostsController extends Controller
 {
     /**
+     * Create a new model instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
+    /**
      * Lock the given post.
      *
      * @param Post $post

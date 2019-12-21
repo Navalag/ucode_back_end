@@ -68,12 +68,11 @@ class PostsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $category
      * @param  $post
      *
      * @return Response
      */
-    public function show($category, Post $post)
+    public function show(Post $post)
     {
         return response()->json($post, 200);
     }
@@ -82,14 +81,13 @@ class PostsController extends Controller
      * Update the given post.
      *
      * @param Request $request
-     * @param string $category
      * @param Post $post
      *
      * @return Response
      *
      * @throws
      */
-    public function update(Request $request, $category, Post $post)
+    public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
 
@@ -113,12 +111,11 @@ class PostsController extends Controller
      * Delete the given thread.
      *
      * @param  Post $post
-     * @param       $category
      *
      * @return Response
      * @throws
      */
-    public function destroy($category, Post $post)
+    public function destroy(Post $post)
     {
         $this->authorize('update', $post);
 

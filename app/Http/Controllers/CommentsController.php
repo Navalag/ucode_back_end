@@ -23,12 +23,11 @@ class CommentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param      $category
      * @param Post $post
      *
      * @return mixed
      */
-    public function index($category, Post $post)
+    public function index(Post $post)
     {
         return $post->comments()->paginate(20);
     }
@@ -36,7 +35,6 @@ class CommentsController extends Controller
     /**
      * Persist a new comment.
      *
-     * @param integer $category
      * @param Post $post
      * @param CreatePostRequest $request
      *
@@ -44,7 +42,7 @@ class CommentsController extends Controller
      *
      * @throws Exception
      */
-    public function store($category, Post $post, CreatePostRequest $request)
+    public function store(Post $post, CreatePostRequest $request)
     {
         if ($post->locked) {
             return response('Thread is locked', 422);
@@ -59,13 +57,11 @@ class CommentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param integer $category
-     * @param Post $post
      * @param Comment $comment
      *
      * @return Response
      */
-    public function show($category, Post $post, Comment $comment)
+    public function show(Comment $comment)
     {
         return response($comment, 200);
     }

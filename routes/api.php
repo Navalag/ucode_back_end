@@ -28,23 +28,23 @@ Route::resource('users', '\\' . UserController::class)->only(['index', 'show', '
 Route::resource('categories', '\\' . CategoriesController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
 Route::get('posts', 'PostsController@index')->name('posts');
-Route::get('posts/{category}/{post}', 'PostsController@show');
-Route::patch('posts/{category}/{post}', 'PostsController@update');
-Route::delete('posts/{category}/{post}', 'PostsController@destroy');
+Route::get('posts/{post}', 'PostsController@show');
+Route::patch('posts/{post}', 'PostsController@update');
+Route::delete('posts/{post}', 'PostsController@destroy');
 Route::post('posts', 'PostsController@store')->middleware('verified');
 Route::get('posts/{category}', 'PostsController@index');
 
 Route::post('locked-posts/{post}', 'LockedPostsController@store')->name('locked-posts.store')->middleware('admin');
 Route::delete('locked-posts/{post}', 'LockedPostsController@destroy')->name('locked-posts.destroy')->middleware('admin');
 
-Route::get('posts/{category}/{post}/comments', 'CommentsController@index');
-Route::get('posts/{category}/{post}/comments/{comment}', 'CommentsController@show');
-Route::post('posts/{category}/{post}/comments', 'CommentsController@store');
+Route::get('posts/{post}/comments', 'CommentsController@index');
+Route::post('posts/{post}/comments', 'CommentsController@store');
+Route::get('comments/{comment}', 'CommentsController@show');
 Route::patch('comments/{comment}', 'CommentsController@update');
 Route::delete('comments/{comment}', 'CommentsController@destroy')->name('comments.destroy');
 
 Route::post('/comments/{comment}/like', 'CommentsLikesController@store');
 Route::delete('/comments/{comment}/like', 'CommentsLikesController@destroy');
 
-Route::post('/posts/{category}/{post}/like', 'PostsLikesController@store');
-Route::delete('/posts/{category}/{post}/like', 'PostsLikesController@destroy');
+Route::post('/posts/{post}/like', 'PostsLikesController@store');
+Route::delete('/posts/{post}/like', 'PostsLikesController@destroy');

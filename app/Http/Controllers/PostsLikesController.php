@@ -18,12 +18,11 @@ class PostsLikesController extends Controller
     /**
      * Store a new like in the database.
      *
-     * @param  $category
      * @param  Post $post
      *
      * @return Response
      */
-    public function store($category, Post $post)
+    public function store(Post $post)
     {
         $post->like();
 
@@ -33,12 +32,11 @@ class PostsLikesController extends Controller
     /**
      * Delete the like.
      *
-     * @param  $category
      * @param  Post $post
      *
      * @return Response
      */
-    public function destroy($category, Post $post)
+    public function destroy(Post $post)
     {
         $post->unlike();
 
