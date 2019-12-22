@@ -16,7 +16,7 @@ class UpdateUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('nickname')->nullable();
             $table->string('avatar_src')->nullable();
-            $table->integer('rating')->nullable();
+            $table->integer('rating')->default(0);
             $table->unsignedBigInteger('role_id')->index();
 
             $table->foreign('role_id')->references('id')->on('roles');

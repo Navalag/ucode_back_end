@@ -3,14 +3,13 @@
 namespace App;
 
 use App\Filters\PostFilters;
-use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-class Post extends Model
+class Post extends Model implements HasOwner
 {
     use Likeable;
 
@@ -26,7 +25,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $with = ['creator', 'category', 'likes'];
+    protected $with = ['owner', 'category', 'likes'];
 
     /**
      * The accessors to append to the model's array form.
@@ -57,11 +56,11 @@ class Post extends Model
     }
 
     /**
-     * A post belongs to a creator.
+     * A post belongs to a owner.
      *
      * @return BelongsTo
      */
-    public function creator()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

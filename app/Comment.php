@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Comment extends Model
+class Comment extends Model implements HasOwner
 {
     use Likeable;
 
@@ -48,12 +48,12 @@ class Comment extends Model
     {
         parent::boot();
 
-        static::created(function ($reply){
-            $reply->post->increment('comments_count');
+        static::created(function ($comment){
+            $comment->post->increment('comments_count');
         });
 
-        static::deleting(function ($reply){
-            $reply->post->decrement('comments_count');
+        static::deleting(function ($comment){
+            $comment->post->decrement('comments_count');
         });
     }
 
@@ -62,7 +62,7 @@ class Comment extends Model
      *
      * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
