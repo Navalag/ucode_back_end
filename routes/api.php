@@ -15,13 +15,18 @@ use App\Http\Controllers\UserController;
 */
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-    Route::post('register', 'AuthController@register');
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout')->middleware('auth:api');
-    Route::post('password_reset', 'AuthController@passwordReset')->middleware('auth:api');
+    Route::post('register', 'ApiAuth\AuthController@register');
+    Route::post('login', 'ApiAuth\AuthController@login');
+    Route::post('logout', 'ApiAuth\AuthController@logout');
 
-    Route::post('refresh', 'AuthController@refresh')->middleware('auth:api');
-    Route::post('me', 'AuthController@me')->middleware('auth:api');
+    Route::post('password-reset', 'ApiAuth\ForgotPasswordController@sendPasswordResetLink');
+    Route::post('password-reset/{token}', 'ApiAuth\ResetPasswordController@verifyPasswordReset');
+
+    Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verification_api.verify');
+    Route::get('email/resend', 'VerificationApiController@resend')->middleware('auth:api')->name('verification_api.resend');
+
+    Route::post('refresh', 'ApiAuth\AuthController@refresh');
+    Route::post('me', 'ApiAuth\AuthController@me')->middleware('verified');
 });
 
 Route::resource('users', '\\' . UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);

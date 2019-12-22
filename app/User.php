@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Notifications\MailResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Notifications\VerifyApiEmail;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -58,6 +60,21 @@ class User extends Authenticatable implements JWTSubject
     public function lastReply()
     {
         return $this->hasOne(Comment::class)->latest();
+    }
+
+    public function sendApiEmailVerificationNotification()
+    {
+        $this->notify(new VerifyApiEmail);
+    }
+
+    /**
+     * Override the mail body for reset password notification mail.
+     *
+     * @param $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordNotification($token));
     }
 
     public function getJWTIdentifier()

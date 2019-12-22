@@ -1,18 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ApiAuth;
 
+use App\Http\Controllers\Controller;
 use App\Role;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class AuthController extends Controller
 {
+    use VerifiesEmails;
+
+    /**
+     * Create a new model instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['register', 'login']);
+    }
+
     /**
      * Register new user.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
@@ -29,9 +42,12 @@ class AuthController extends Controller
 
         $input = array_merge($request->all(), ['role_id' => Role::where('name', 'user')->first()->id]);
 
+        /** @var User $user */
         $user = User::create($input);
 
         $token = auth()->login($user);
+
+        $user->sendApiEmailVerificationNotification();
 
         return $this->respondWithToken($token);
     }
@@ -39,7 +55,7 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login()
     {
@@ -64,7 +80,7 @@ class AuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -76,7 +92,7 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
@@ -86,7 +102,7 @@ class AuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function me()
     {
@@ -97,8 +113,7 @@ class AuthController extends Controller
      * Get the token array structure.
      *
      * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {
