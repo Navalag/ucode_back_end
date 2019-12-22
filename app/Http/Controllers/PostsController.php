@@ -103,7 +103,7 @@ class PostsController extends Controller
 
         // TODO: this is hotfix need to be refactored later
         if (auth()->user()->role->name == 'admin') {
-            $input = $request->get('category_id');
+            $input = ['category_id' => $request->get('category_id')];
         } else {
             $input = $request->all();
         }

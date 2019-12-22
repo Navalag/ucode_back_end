@@ -92,7 +92,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
             'password' => ['required', 'min:8', 'max:255'],
             'c_password' => ['required', 'same:password'],
             'nickname' => ['nullable', 'string', 'min:3', 'max:255'],
