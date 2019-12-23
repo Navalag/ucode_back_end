@@ -19,7 +19,8 @@ Install dependencies
 composer install
 ```
 
-Copy .env.example to .env. Update database and email credentials.
+Copy .env.example to .env. 
+Create database and update database and email credentials.
 ```
 cp .env.example .env
 php artisan key:generate
