@@ -23,6 +23,7 @@ Copy .env.example to .env. Update database and email credentials.
 ```
 cp .env.example .env
 php artisan key:generate
+php artisan jwt:secret
 ```
 
 Run migration and seeder
