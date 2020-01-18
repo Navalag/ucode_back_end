@@ -27,12 +27,15 @@ class DatabaseSeeder extends Seeder
         $categories = factory(Category::class, 6)->create()->toArray();
 
         foreach ($users as $user) {
-            $posts = factory(Post::class, rand(1, 5))->create([
-                'user_id' => $user['id'],
-                'category_id' => $faker->randomElements($categories)[0]['id'],
-            ]);
+            /** @var Post $posts */
+            $posts = factory(Post::class, rand(1, 5))->create(['user_id' => $user['id']]);
 
             foreach ($posts as $post) {
+                $post->categories()->attach([
+                    $faker->randomElements($categories)[0]['id'],
+                    $faker->randomElements($categories)[0]['id'],
+                ]);
+
                 factory(Comment::class, rand(1, 5))->create([
                     'post_id' => $post['id'],
                     'user_id' => $user['id'],

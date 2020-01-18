@@ -6,6 +6,7 @@ use App\Filters\PostFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
@@ -25,7 +26,7 @@ class Post extends Model implements HasOwner
      *
      * @var array
      */
-    protected $with = ['owner', 'category', 'likes'];
+    protected $with = ['owner', 'categories', 'likes'];
 
     /**
      * The accessors to append to the model's array form.
@@ -78,13 +79,13 @@ class Post extends Model implements HasOwner
     }
 
     /**
-     * A post is assigned to a category.
+     * A post may have many categories.
      *
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     /**

@@ -36,6 +36,7 @@ Route::resource('categories', '\\' . CategoriesController::class)->only(['index'
 
 Route::get('posts', 'PostsController@index')->name('posts');
 Route::get('posts/{post}', 'PostsController@show');
+Route::get('posts/{post}/categories', 'PostsController@showCategories');
 Route::patch('posts/{post}', 'PostsController@update');
 Route::delete('posts/{post}', 'PostsController@destroy');
 Route::post('posts', 'PostsController@store')->middleware('verified');

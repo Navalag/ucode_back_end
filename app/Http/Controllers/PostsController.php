@@ -45,7 +45,8 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category_id' => ['required', Rule::exists((new Category())->getTable(), 'id')],
+            'categories' => ['required', 'array'],
+            'categories.*' => ['required', Rule::exists((new Category())->getTable(), 'id')],
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:1000'],
         ]);
@@ -54,13 +55,15 @@ class PostsController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
 
+        /** @var Post $post */
         $post = Post::create([
             'user_id' => auth()->id(),
-            'category_id' => request('category_id'),
             'title' => request('title'),
             'body' => request('body'),
             'slug' => request('title'),
         ]);
+
+        $post->categories()->attach(request('categories'));
 
         return response()->json($post, 200);
     }
@@ -78,6 +81,18 @@ class PostsController extends Controller
     }
 
     /**
+     * Display the specified resource categories.
+     *
+     * @param  $post
+     *
+     * @return Response
+     */
+    public function showCategories(Post $post)
+    {
+        return response()->json($post->categories, 200);
+    }
+
+    /**
      * Update the given post.
      *
      * @param Request $request
@@ -92,7 +107,8 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         $validator = Validator::make($request->all(), [
-            'category_id' => ['required', Rule::exists((new Category())->getTable(), 'id')],
+            'categories' => ['required', 'array'],
+            'categories.*' => ['required', Rule::exists((new Category())->getTable(), 'id')],
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:1000'],
         ]);
@@ -103,14 +119,13 @@ class PostsController extends Controller
 
         // TODO: this is hotfix need to be refactored later
         if (auth()->user()->role->name == 'admin' && $post->user_id != auth()->id()) {
-            $input = ['category_id' => $request->get('category_id')];
+            $post->categories()->sync(request('categories'));
         } else {
-            $input = $request->all();
+            $post->update($request->only(['title', 'body']));
+            $post->categories()->sync(request('categories'));
         }
-        
-        $post->update($input);
 
-        return response()->json($post, 200);
+        return response()->json($post->fresh(), 200);
     }
 
     /**
@@ -143,7 +158,9 @@ class PostsController extends Controller
         $posts = Post::latest()->active()->filter($filters);
 
         if ($category->exists) {
-            $posts->where('category_id', $category->id);
+            $posts->whereHas('categories', function ($query) use ($category) {
+                $query->where('name', $category->name);
+            })->get();
         }
 
         return $posts->paginate(10);

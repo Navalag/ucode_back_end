@@ -16,9 +16,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'user_id' => function() {
             return factory(User::class)->create()->id;
         },
-        'category_id' => function() {
-            return factory(Category::class)->create()->id;
-        },
         'title' => $title,
         'body' => $faker->paragraph,
         'slug' => Str::kebab($title),

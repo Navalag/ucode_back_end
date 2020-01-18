@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Post;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class LockedPostsController extends Controller
@@ -29,7 +28,9 @@ class LockedPostsController extends Controller
         $posts = Post::latest()->inactive();
 
         if ($category->exists) {
-            $posts->where('category_id', $category->id);
+            $posts->whereHas('categories', function ($query) use ($category) {
+                $query->where('name', $category->name);
+            })->get();
         }
 
         return response()->json($posts->paginate(10), 200);
