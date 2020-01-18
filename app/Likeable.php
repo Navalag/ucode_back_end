@@ -13,7 +13,7 @@ trait Likeable
     protected static function bootLikeable()
     {
         static::deleting(function ($model) {
-            $model->likes->each->dalete();
+            $model->likes->each->delete();
         });
     }
 

@@ -56,7 +56,7 @@ class UserController extends Controller
         if (empty($input['role_id'])) {
             $input = array_merge(
                 $request->all(),
-                ['role_id' => Role::where('name', 'user')->first()->id]
+                ['role_id' => Role::where('name', 'user')->first()->id] // TODO: fix hardcode
             );
         }
 

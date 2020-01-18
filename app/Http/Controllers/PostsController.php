@@ -102,7 +102,7 @@ class PostsController extends Controller
         }
 
         // TODO: this is hotfix need to be refactored later
-        if (auth()->user()->role->name == 'admin') {
+        if (auth()->user()->role->name == 'admin' && $post->user_id != auth()->id()) {
             $input = ['category_id' => $request->get('category_id')];
         } else {
             $input = $request->all();

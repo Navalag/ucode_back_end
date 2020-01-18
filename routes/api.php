@@ -57,7 +57,9 @@ Route::post('locked-comment/{comment}', 'LockedCommentsController@store');
 Route::delete('locked-comment/{comment}', 'LockedCommentsController@destroy');
 
 Route::post('/comments/{comment}/like', 'CommentsLikesController@store');
+Route::get('/comments/{comment}/like', 'CommentsLikesController@show');
 Route::delete('/comments/{comment}/like', 'CommentsLikesController@destroy');
 
 Route::post('/posts/{post}/like', 'PostsLikesController@store');
+Route::get('/posts/{post}/like', 'PostsLikesController@show');
 Route::delete('/posts/{post}/like', 'PostsLikesController@destroy');
