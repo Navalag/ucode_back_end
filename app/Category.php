@@ -15,16 +15,6 @@ class Category extends Model
     protected $guarded = [];
 
     /**
-     * Get the route key name for Laravel.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    /**
      * A category consists of posts.
      *
      * @return BelongsToMany
