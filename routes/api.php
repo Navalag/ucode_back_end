@@ -30,7 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
 });
 
 Route::resource('users', '\\' . UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-Route::post('users/{user}/avatar', 'UserAvatarController@store')->middleware('auth:api');
+Route::post('users/avatar', 'UserAvatarController@store')->middleware('auth:api');
 
 Route::resource('categories', '\\' . CategoriesController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
