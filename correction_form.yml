@@ -1,0 +1,170 @@
+name: "usof back-end Protocol"
+description: "Peer protocol for usof back-end"
+  - name: "Main"
+    description: "This is always what is clearly stated in the story. The assessment should be set honestly in accordance with the challenge.\n\n
+                  The application should be developed in PHP. Everything should work correctly, without errors.\n\n
+                    Start the web server that should serve the app and keep an eye on the web console and the log file of the server.\n\n
+                    As this application should provide only the functionality of API, you should check all of the entries changes in the database.\n\n
+                    The real assessment is much more valuable than overestimated or underestimated marks.
+                    First of all, you need to set up a project and install all dependencies (it should look something like this):\n
+                    ```bash\n
+                    >cd challenge_repo\n
+                    >cp .env.example .env\n
+                    >composer install\n
+                    >php artisan migrate\n
+                    >php artisan db:seed \n
+                    >php artisan serve\n
+                    ```\n
+                    Do not forget to enter valid credentials into the `.env` file."
+    questions:
+    - name: "Framework"
+      description: "Does the application use only Laravel framework?"
+
+    - name: "Pattern"
+      description: "Does the application response to the MVC pattern?"
+
+    - name: "OOP"
+      description: "Does the application correspond to the OOP paradigm?"
+
+    - name: "Errors"
+      description: "Can you go to the server address without any errors?"
+
+    - name: "Faker"
+      description: "Does the database already have at least 5 entries per each table?"
+
+  - name: "User authentication"
+    description: "The application should provide an opportunity to create a user entry via request.\n\n
+                  Check the functioning of all of the endpoints for this part.\n\n
+                  You should check all functionality via curl requests.\n\n
+                  For example:\n
+                  ```\n
+                  curl -d \"login=new_user&email=new_user@testmailserver.com&password=user_password\" -X POST 'http://localhost:port/api/register'
+                  \n```\n"
+    questions:
+    - name: "Can you create a user?"
+      description: "A user must be created if all of these fields are presented:\n\n
+                    - login;\n
+                    - email;\n
+                    - password;\n\n
+                    Check whether the user entry was created in the database or not."
+
+    - name: "Change password"
+      description: "Does the user have a possibility to change his password?\n\n
+                    Check if he/she is able to login with an old password after changing procedure.\n\n
+                    If one of the items is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+  - name: "Admin user manipulation"
+    description: "For this part you should check the functionality in operating with users and users' data.\n\n
+                  Check if the admin user can make all of the CRUD manipulations. But don't forget to authorize at first.\n\n
+                  Check all of the endpoints for this part.\n
+                  You should check all functionality via curl requests.\n\n
+                  For example:\n
+                  ```\n
+                  curl -d \"password=new_password\" -X PUT 'http://localhost:port/api/users/user_id'
+                  \n```\n"
+    questions:
+    - name: "Users"
+      description: "Can you get all of the users from the database?"
+
+    - name: "Create/delete a user"
+      description: "Does the admin have the possibility to create/delete the user?\n\n\
+                    If one of the items is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+    - name: "Inactive posts"
+      description: "Does the admin have the possibility to make the user's post inactive?\n\n
+                    If this item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+  - name: "Admin panel displaying"
+    description: "It was up to you to create a visualization for an admin panel."
+    questions:
+    - name: "Do you like the visualization of the panel?"
+      description: "If the admin panel has a good UI/UX – rate it.\n\n
+                    Be fair and evaluate the complexity of the interface.\n\n
+                    Each point for each feature."
+
+  - name: "Post manipulations"
+    description: "Check the possibility to access all of the endpoints which are required in the subject for this part.\n\n
+                  You should check all functionality via curl requests.\n\n
+                  For example:\n
+                  ```\n
+                  curl -X GET 'http://localhost:port/api/posts/post_id'
+                  \n```\n"
+    questions:
+    - name: "Information about the specific post"
+      description: "Can you get all of the information about the specific post?"
+
+    - name: "Post categories"
+      description: "Are you able to create a post and choose a category for it (you should be able to define several categories for one post)?"
+
+    - name: "Like/dislike posts and comments"
+      description: "Are you able to like/dislike posts or comments of other users?\n\n
+                    Check whether you can put only one like."
+
+    - name: "Status changing"
+      description: "Are you able to make the post inactive?\n"
+
+    - name: "Content editing"
+      description: "Does the creator of the post have a possibility to change its content?\n\n
+                    The user must be able to edit the content only of their own post by means of a PATCH request."
+
+    - name: "Rating check"
+      description: "Put like under some post or comment. Check whether the user rating was changed. Then take this like away and check the user's rating once again. If it wasn't changed, mark this part as `False`."
+
+  - name: "Categories manipulations"
+    description: "Check the availability of all of the endpoints for this part which are required in the subject.\n
+                  Be careful, some operations are accessible only for admins.
+                  You should check all functionality via curl requests.\n\n
+                  For example:\n
+                  ```\n
+                  curl -X DELETE 'http://localhost:port/api/categories/category_id'
+                  \n```\n"
+    questions:
+    - name: "Categories"
+      description: "Can you get all of the categories from the API?"
+
+    - name: "The posts for specific category"
+      description: "Can you get all of the posts for specific category?"
+
+    - name: "Create/delete a category"
+      description: "Can you create/delete a category?\n\n
+                    If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+    - name: "Update the name of the category"
+      description: "Can you update the name of the category?\n
+                    If this item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+  - name: "Comments manipulations"
+    description: "Check the availability of all of the endpoints for this part which are required in the subject.\n\n
+                  You should check all functionality via curl requests.\n\n
+                  For example:\n
+                  ```\n
+                  curl -X GET 'http://localhost:port/api/comments'
+                  \n```\n"
+    questions:
+    - name: "Comments"
+      description: "Can you get all of the comments for the specific post?\n\n
+                    Does the comment's information display all of the required fields?\n\n
+                    If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+    - name: "Create/delete the comment"
+      description: "Can you create/delete the comment?\n
+                    If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+    - name: "Like/dislike the comment"
+      description: "Can you like/dislike the comment?\n
+                    Check whether one user can put only one like for one comment.\n
+                    If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
+
+    - name: "Inactive comments"
+      description: "Check if you are able to see all of the inactive comments for the post."
+
+  - name: "Act: Creative"
+    description: "This part will be taken into account only if the previous one is done perfectly.\n\n
+                  So, if all answers for the previous part are True, you can continue assessment in this section"
+    questions:
+    - name: "Features"
+      description: "`Wow!` - how many times you made this sound during the evaluation?\n\n
+                Evaluate the awesomeness of the application from 0 to 10 points.\n\n
+                Remember if there was a posts sort. Maybe you saw an implementation of posts filtering.\n\n
+                But be rigorous: you should estimate sorting and filtering as one point,
+                different types of sorting can't be estimated like different types of features."
