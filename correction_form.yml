@@ -11,18 +11,21 @@ description: "Peer protocol for usof back-end"
                     >cd challenge_repo\n
                     >cp .env.example .env\n
                     >composer install\n
+                    >php artisan key:generate\n
                     >php artisan migrate\n
                     >php artisan db:seed \n
                     >php artisan serve\n
                     ```\n
-                    Do not forget to enter valid credentials into the `.env` file."
+                    Do not forget to provide a valid credentials into the `.env` file."
     questions:
     - name: "Framework"
       description: "Does the application use only Laravel framework?"
 
+    Ларавель це MVC фреймворк, тому код завжди стрктурований за цим патерном
     - name: "Pattern"
       description: "Does the application response to the MVC pattern?"
 
+    Те ж саме з OOP, не вийде писати без нього
     - name: "OOP"
       description: "Does the application correspond to the OOP paradigm?"
 
@@ -35,10 +38,11 @@ description: "Peer protocol for usof back-end"
   - name: "User authentication"
     description: "The application should provide an opportunity to create a user entry via request.\n\n
                   Check the functioning of all of the endpoints for this part.\n\n
+                  Я б запропонував тестувати через postman, curl низькорівневий тул. Його добре знати, але він не зручний, в роботі ніхто ним API не тестує.
                   You should check all functionality via curl requests.\n\n
                   For example:\n
                   ```\n
-                  curl -d \"login=new_user&email=new_user@testmailserver.com&password=user_password\" -X POST 'http://localhost:port/api/register'
+                  curl -d \"login=new_user&email=new_user@example.com&password=user_password\" -X POST 'http://localhost:port/api/register'
                   \n```\n"
     questions:
     - name: "Can you create a user?"
@@ -63,6 +67,7 @@ description: "Peer protocol for usof back-end"
                   curl -d \"password=new_password\" -X PUT 'http://localhost:port/api/users/user_id'
                   \n```\n"
     questions:
+      Повинна бути перевірка 5 ендпоінтів - 1. Get all, 2. Get specific user, 3. Create new user, 4. Update a user, 5. Delete a user.
     - name: "Users"
       description: "Can you get all of the users from the database?"
 
@@ -70,10 +75,12 @@ description: "Peer protocol for usof back-end"
       description: "Does the admin have the possibility to create/delete the user?\n\n\
                     If one of the items is malfunctioning or gives you an error, you should estimate that part as `False`."
 
+      Адмін може деактивувати як пости так і коментарі
     - name: "Inactive posts"
       description: "Does the admin have the possibility to make the user's post inactive?\n\n
                     If this item is malfunctioning or gives you an error, you should estimate that part as `False`."
 
+   Бачу ви таки залишили частину з UI/UX, тоді відмічу, шо це +25-30% роботи.
   - name: "Admin panel displaying"
     description: "It was up to you to create a visualization for an admin panel."
     questions:
@@ -82,6 +89,7 @@ description: "Peer protocol for usof back-end"
                     Be fair and evaluate the complexity of the interface.\n\n
                     Each point for each feature."
 
+    Так розумію, тут вже починається функціонал юзера, можна відмітити це і запропонувати перелогінитись як юзер.
   - name: "Post manipulations"
     description: "Check the possibility to access all of the endpoints which are required in the subject for this part.\n\n
                   You should check all functionality via curl requests.\n\n
@@ -90,16 +98,19 @@ description: "Peer protocol for usof back-end"
                   curl -X GET 'http://localhost:port/api/posts/post_id'
                   \n```\n"
     questions:
+      Теж можна запропонувати перевірити CRUD операції - 1. Get all posts. 2. Get specific post. 3. Create post. 4. Update post. 5. Destroy post.
     - name: "Information about the specific post"
       description: "Can you get all of the information about the specific post?"
 
     - name: "Post categories"
       description: "Are you able to create a post and choose a category for it (you should be able to define several categories for one post)?"
 
+      Так розумію мається на увазі like/unlike, бо dislike звучить як окрема дія.
     - name: "Like/dislike posts and comments"
       description: "Are you able to like/dislike posts or comments of other users?\n\n
                     Check whether you can put only one like."
 
+      Вважаю, юзеру не потрібно робити свої пости чи коменти неактивними, він їх може або створити, або видалити.
     - name: "Status changing"
       description: "Are you able to make the post inactive?\n"
 
@@ -110,6 +121,7 @@ description: "Peer protocol for usof back-end"
     - name: "Rating check"
       description: "Put like under some post or comment. Check whether the user rating was changed. Then take this like away and check the user's rating once again. If it wasn't changed, mark this part as `False`."
 
+    Менеджмент категорій я б відніс в частину адмінських повноважень.
   - name: "Categories manipulations"
     description: "Check the availability of all of the endpoints for this part which are required in the subject.\n
                   Be careful, some operations are accessible only for admins.
@@ -150,14 +162,17 @@ description: "Peer protocol for usof back-end"
       description: "Can you create/delete the comment?\n
                     If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
 
+      Те саме з like/unlike. Я б зробив перевірку лайків одним блоком, відразу для коментів і постів. Тоді це буде перевірка фічі лайків.
     - name: "Like/dislike the comment"
       description: "Can you like/dislike the comment?\n
                     Check whether one user can put only one like for one comment.\n
                     If one of the item is malfunctioning or gives you an error, you should estimate that part as `False`."
 
+      Функціонал адміна.
     - name: "Inactive comments"
       description: "Check if you are able to see all of the inactive comments for the post."
 
+    Виникло пиання з UI там же сказано було, що то частина не обов"язкова. Варто якось це уточнити.
   - name: "Act: Creative"
     description: "This part will be taken into account only if the previous one is done perfectly.\n\n
                   So, if all answers for the previous part are True, you can continue assessment in this section"
@@ -168,3 +183,12 @@ description: "Peer protocol for usof back-end"
                 Remember if there was a posts sort. Maybe you saw an implementation of posts filtering.\n\n
                 But be rigorous: you should estimate sorting and filtering as one point,
                 different types of sorting can't be estimated like different types of features."
+Додаткові коментарі.
+Не зрозуміло з фільтрами і сортуванням, наче вони мали бути обов"язковим пунктом. Якшо так то варто описати більш детально.
+Також не було пункту про завантаження аватарки.
+В решті, наче все прописано.
+
+Хочу ще відмітити - на тестування в ручну піде немало часу, шоб реально протестувати всі ендпоінти потрібно не менше години.
+Як варіант, можна запропонувати тому хто записується на перевірку попередньо підготувати postman де прописати всі потрібні роути.
+
+Ще згадав, при відновленні пароля і підтвердженні пошти повинен відправлятись мейл, варто теж перевірити.
